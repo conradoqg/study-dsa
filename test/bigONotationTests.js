@@ -10,36 +10,39 @@ const defaultBigONotationTest = function (fn, args) {
     let measurements = instrumentation.measure(fn, 10, args);
 
     console.log('');
+        
     measurements.forEach(measurement => {
         printMeasurement('Result: ', measurement);
-        printMeasurement('Big O: ', findBigO(measurement.argsSize, measurement.steps));
+        for (let key in measurement.steps) {
+            printMeasurement('Big O for ' + key + ': ', findBigO(measurement.argsSize[key], measurement.steps[key]));
+        }        
     });
     console.log('');
 };
 
-describe('Big O Notation', () => {    
+describe('Big O Notation', () => {
 
     it('O(log N) Power of 2', () => {
-        return defaultBigONotationTest(bigOFunctions.powers0f2, [[5], [10], [20], [50]]);
-    });
-    
-    it('O(1) Simple', () => {
-        return defaultBigONotationTest(bigOFunctions.O1Simple, [[100, 200], [200, 400], [400, 800]]);
-    });
-    
-    it('O(N) Simple', () => {
-        return defaultBigONotationTest(bigOFunctions.ONSimple, [[new Array(100).fill(0)], [new Array(200).fill(0)], [new Array(400).fill(0)]]);                        
-    });
-    
-    it('O(N^2) Simple', () => {
-        return defaultBigONotationTest(bigOFunctions.ON2Simple, [[new Array(100).fill(0)], [new Array(200).fill(0)], [new Array(400).fill(0)], [new Array(800).fill(0)], [new Array(1600).fill(0)]]);
+        return defaultBigONotationTest(bigOFunctions.powers0f2, [{ n: 5 }], [{ n: 10 }], [{ n: 20 }], [{ n: 50 }]);
     });
 
-    it('O(2^N) Simple',() => {
-        return defaultBigONotationTest(bigOFunctions.O2NSimple, [[5], [10], [20]]);                
+    it('O(1) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.O1Simple, [{ n: 100, m: 200 }, { n: 200, m: 400 }, { n: 400, m: 800 }]);
+    });
+
+    it('O(N) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.ONSimple, [{ array: new Array(100).fill(0) }, { array: new Array(200).fill(0) }, { array: new Array(400).fill(0) }]);
+    });
+
+    it('O(N^2) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.ON2Simple, [{ array: new Array(100).fill(0) }, { array: new Array(200).fill(0) }, { array: new Array(400).fill(0) }, { array: new Array(800).fill(0) }, { array: new Array(1600).fill(0) }]);
+    });
+
+    it('O(2^N) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.O2NSimple, [{ n: 5 }, { n: 10 }, { n: 20 }]);
     });
 
     it('O(2^N) Fibonacci', () => {
-        return defaultBigONotationTest(bigOFunctions.fibonacci, [[5], [10], [20], [30]]);                
-    });    
+        return defaultBigONotationTest(bigOFunctions.fibonacci, [{ n: 5 }, { n: 10 }, { n: 20 }, { n: 30 }]);
+    });
 });

@@ -11,7 +11,7 @@ class Instrumentation {
         this.measurements = [];
     }
 
-    
+
     /**
      * Wrap a function for measurement.
      * 
@@ -25,23 +25,27 @@ class Instrumentation {
      * 
      * @memberOf Instrumentation
      */
-    wrapForMeasurement(fn) {        
-        return function (...args) {            
+    wrapForMeasurement(fn) {
+        return function (args) {
             let measurement = {
                 name: fn.name,
                 args: args,
-                steps: 0,
+                steps: {},
                 argsSize: 0,
                 duration: 0,
             };
 
             let instrument = {
-                step: function () {
-                    measurement.steps++;
+                step: function (...argIDs) {
+                    measurement.steps['total'] = (measurement.steps['total'] == null ? 1 : measurement.steps['total'] + 1);
+                    argIDs.forEach(function (argID) {
+                        if (argID != null)
+                            measurement.steps[argID] = (measurement.steps[argID] == null ? 1 : measurement.steps[argID] + 1);
+                    }, this);
                 }
             };
             measurement.argsSize = Instrumentation.calculateArgs(args);
-            measurement.duration = perfy.exec(() => { fn.apply(instrument, args); }).milliseconds;
+            measurement.duration = perfy.exec(() => { fn.apply(instrument, Object.values(args)); }).milliseconds;
             return measurement;
         };
     }
@@ -62,18 +66,18 @@ class Instrumentation {
      */
     measure(fn, samplesAmount, args) {
         const ignoreFirst = 4;
-        const self = this;        
-        
-        let argsMeasurements = args.map(arg => {
+        const self = this;
+
+        let argsMeasurements = R.map(arg => {
             let measurements = [];
             for (var index = 0; index < samplesAmount + ignoreFirst; index++) {
-                const measurement = this.wrapForMeasurement(fn)(...arg);
+                const measurement = this.wrapForMeasurement(fn)(arg);
                 if (!(index < ignoreFirst ? true : false)) self.measurements.push(measurement);
-                measurements.push(measurement);                
-            }            
-            
-            return R.assoc('duration', R.mean(R.map(measurement => measurement.duration, measurements)), R.head(measurements));         
-        });
+                measurements.push(measurement);
+            }
+
+            return R.assoc('duration', R.mean(R.map(measurement => measurement.duration, measurements)), R.head(measurements));
+        }, args);
 
         return argsMeasurements;
     }
@@ -86,13 +90,13 @@ class Instrumentation {
      * @memberOf Instrumentation
      */
     averageDurationByCallGroup() {
-        let groupedByCallAndArgs = R.groupBy(measurement => { return measurement.name + measurement.args; }, this.measurements);        
-        let averageDurationByCallGroup = R.map(i => {            
+        let groupedByCallAndArgs = R.groupBy(measurement => { return measurement.name + measurement.args; }, this.measurements);
+        let averageDurationByCallGroup = R.map(i => {
             return R.assoc('duration', R.mean(R.map(x => x.duration, i)), R.head(i));
         }, groupedByCallAndArgs);
 
         return averageDurationByCallGroup;
-    }    
+    }
 
     /**
      * Calculate the total argument count, usefull to find the closest Big O notation.
@@ -105,7 +109,7 @@ class Instrumentation {
      * @memberOf Instrumentation
      */
     static calculateArgs(args) {
-        return R.sum(R.map((arg) => {
+        const argsSize = R.map((arg) => {
             if (typeof (arg) == 'number') {
                 return arg;
             } else if (Array.isArray(arg)) {
@@ -114,9 +118,15 @@ class Instrumentation {
                 return arg.length;
             } else {
                 return 0;
-            }            
-        }, args));        
-    }    
+            }
+        }, args);
+
+        const total = {
+            total: R.sum(Object.values(argsSize))
+        };
+
+        return R.merge(total, argsSize);
+    }
 }
 
 module.exports = Instrumentation;

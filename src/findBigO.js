@@ -6,9 +6,8 @@
  * @param {number} num Number to be calculated.
  * @returns Factorial number.
  */
-function sFact(num)
-{
-    var rval=1;
+function sFact(num) {
+    var rval = 1;
     for (var i = 2; i <= num; i++)
         rval = rval * i;
     return rval;
@@ -24,21 +23,21 @@ function sFact(num)
  */
 function findBigO(argsSize, steps) {
     const commonBigONotation = [
-        { name: 'O(log N)', value: argsSize/2},
-        { name: 'O(1)', value: 1},
-        { name: 'O(N)', value: argsSize},
-        { name: 'O(N log N)', value: argsSize * ((argsSize/2) + 1)},
-        { name: 'O(N^2)', value: Math.pow(argsSize, 2)},
-        { name: 'O(2^N)', value: Math.pow(2, argsSize)},
-        { name: 'O(N!)', value: sFact(argsSize)}
+        { name: 'O(log N)', value: argsSize / 2 },
+        { name: 'O(1)', value: 1 },
+        { name: 'O(N)', value: argsSize },
+        { name: 'O(N log N)', value: argsSize * ((argsSize / 2) + 1) },
+        { name: 'O(N^2)', value: Math.pow(argsSize, 2) },
+        { name: 'O(2^N)', value: Math.pow(2, argsSize) },
+        { name: 'O(N!)', value: sFact(argsSize) }
     ];
-    
-    let distance = (numberA, numberB) => { return numberB - numberA; };
-    let calculatedDistances = commonBigONotation.map((point) => { return distance(steps, point.value); });    
-    let closestPoint = calculatedDistances.reduce((calculatedDistancesA, calculatedDistancesB) => {         
+
+    const distance = (numberA, numberB) => { return numberB - numberA; };
+    const calculatedDistances = commonBigONotation.map((point) => { return distance(steps, point.value); });
+    const closestPoint = calculatedDistances.reduce((calculatedDistancesA, calculatedDistancesB) => {
         calculatedDistancesA = (calculatedDistancesA < 0 ? Infinity : calculatedDistancesA);
         calculatedDistancesB = (calculatedDistancesB < 0 ? Infinity : calculatedDistancesB);
-        return Math.min(calculatedDistancesA, calculatedDistancesB);        
+        return Math.min(calculatedDistancesA, calculatedDistancesB);
     });
     return commonBigONotation[calculatedDistances.indexOf(closestPoint)];
 }
