@@ -110,7 +110,7 @@ function OADBSimple(arrayA, arrayB) {
 }
 
 /**
- * Simple function that has a array loop inside other array loop.
+ * Simple function that has an array loop inside other array loop.
  * Big O: O(A * B)
  * 
  * @memberOf BigOFunctions
@@ -123,9 +123,21 @@ function ONXNSimple(arrayA, arrayB) {
         arrayB.forEach(() => {
             this.step('arrayB');
         });        
-    });
+    });    
+}
 
-    
+/**
+ * Simple function that has an array loop inside other array loop. The inner loop does half of the work of the outer loop
+ * Big O: O(N * N/2) = O(N^2)
+ * 
+ * @memberOf BigOFunctions
+ * @param {array} array array. 
+ */
+function ON2HalfInnerLoop(array) {
+    for (let i= 0; i < array.length; i++) { // N work        
+        for (let j = i + 1; j < array.length; j++) { // N/2 work (on average)            
+        }
+    }
 }
 
 module.exports = {
@@ -136,5 +148,6 @@ module.exports = {
     O2NSimple,
     fibonacci,
     OADBSimple,
-    ONXNSimple
+    ONXNSimple,
+    ON2HalfInnerLoop
 };
