@@ -5,25 +5,25 @@ const util = require('util');
 
 const printMeasurement = function (description, measurement) { console.log('\t' + description + util.inspect(measurement, { breakLength: Infinity, depth: 1, colors: true })); };
 
-const defaultBigONotationTest = function (fn, args) {
+const defaultBigONotationTest = function (fn, args, relation) {
     let instrumentation = new Instrumentation();
     let measurements = instrumentation.measure(fn, 10, args);
 
     console.log('');
-        
+
     measurements.forEach(measurement => {
         printMeasurement('Result: ', measurement);
-        for (let key in measurement.steps) {
-            printMeasurement('Big O for ' + key + ': ', findBigO(measurement.argsSize[key], measurement.steps[key]));
-        }        
+
+        const findBigOResult = findBigO(measurement.args, measurement.steps, relation);
+
+        printMeasurement('Big O: ', findBigOResult);
     });
     console.log('');
 };
 
 describe('Big O Notation', () => {
-
     it('O(log N) Power of 2', () => {
-        return defaultBigONotationTest(bigOFunctions.powers0f2, [{ n: 5 }], [{ n: 10 }], [{ n: 20 }], [{ n: 50 }]);
+        return defaultBigONotationTest(bigOFunctions.powers0f2, [{ n: 5 }, { n: 10 }, { n: 20 }]);
     });
 
     it('O(1) Simple', () => {
@@ -44,5 +44,13 @@ describe('Big O Notation', () => {
 
     it('O(2^N) Fibonacci', () => {
         return defaultBigONotationTest(bigOFunctions.fibonacci, [{ n: 5 }, { n: 10 }, { n: 20 }, { n: 30 }]);
+    });
+
+    it('O(A + B) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.OADBSimple, [{ arrayA: Array(100).fill(0), arrayB: Array(100).fill(0) }, { arrayA: Array(200).fill(0), arrayB: Array(200).fill(0) }], [{ left: 'arrayA', operation: '+', right: 'arrayB' }]);
+    });
+
+    it('O(A * B) Simple', () => {
+        return defaultBigONotationTest(bigOFunctions.ONXNSimple, [{ arrayA: Array(100).fill(0), arrayB: Array(100).fill(0) }, { arrayA: Array(200).fill(0), arrayB: Array(200).fill(0) }, { arrayA: Array(500).fill(0), arrayB: Array(500).fill(0) }], [{ left: 'arrayA', operation: '*', right: 'arrayB' }]);
     });
 });

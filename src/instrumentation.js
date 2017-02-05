@@ -30,21 +30,18 @@ class Instrumentation {
             let measurement = {
                 name: fn.name,
                 args: args,
-                steps: {},
-                argsSize: 0,
+                steps: {},                
                 duration: 0,
             };
 
             let instrument = {
-                step: function (...argIDs) {
-                    measurement.steps['total'] = (measurement.steps['total'] == null ? 1 : measurement.steps['total'] + 1);
+                step: function (...argIDs) {                    
                     argIDs.forEach(function (argID) {
                         if (argID != null)
                             measurement.steps[argID] = (measurement.steps[argID] == null ? 1 : measurement.steps[argID] + 1);
                     }, this);
                 }
-            };
-            measurement.argsSize = Instrumentation.calculateArgs(args);
+            };            
             measurement.duration = perfy.exec(() => { fn.apply(instrument, Object.values(args)); }).milliseconds;
             return measurement;
         };
@@ -96,36 +93,6 @@ class Instrumentation {
         }, groupedByCallAndArgs);
 
         return averageDurationByCallGroup;
-    }
-
-    /**
-     * Calculate the total argument count, usefull to find the closest Big O notation.
-     * 
-     * @private
-     * @static
-     * @param {any} args Arguments to calculate.
-     * @returns Sum of the provided arguments.
-     * 
-     * @memberOf Instrumentation
-     */
-    static calculateArgs(args) {
-        const argsSize = R.map((arg) => {
-            if (typeof (arg) == 'number') {
-                return arg;
-            } else if (Array.isArray(arg)) {
-                return arg.length;
-            } else if (typeof (arg) == 'string') {
-                return arg.length;
-            } else {
-                return 0;
-            }
-        }, args);
-
-        const total = {
-            total: R.sum(Object.values(argsSize))
-        };
-
-        return R.merge(total, argsSize);
     }
 }
 
