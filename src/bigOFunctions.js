@@ -76,6 +76,7 @@ function O2NSimple(n) {
 
 /**
  * Function that calculates a fibonacci number.
+ * Big O: O(2^N)
  *    
  * @memberOf BigOFunctions
  * @param {number} n Number to calculate fibonacci.
@@ -90,11 +91,50 @@ function fibonacci(n) {
     return fibonacci.apply(this, [n - 1]) + fibonacci.apply(this, [n - 2]);
 }
 
+/**
+ * Simple function that has two sequencial array loops.
+ * Big O: O(A + B)
+ * 
+ * @memberOf BigOFunctions
+ * @param {array} arrayA First array.
+ * @param {array} arrayB Second array.
+ */
+function OADBSimple(arrayA, arrayB) {
+    arrayA.forEach(() => {
+        this.step('arrayA');
+    });
+
+    arrayB.forEach(() => {
+        this.step('arrayB');
+    });
+}
+
+/**
+ * Simple function that has a array loop inside other array loop.
+ * Big O: O(A * B)
+ * 
+ * @memberOf BigOFunctions
+ * @param {array} arrayA First array.
+ * @param {array} arrayB Second array.
+ */
+function ONXNSimple(arrayA, arrayB) {
+    arrayA.forEach(() => {
+        this.step('arrayA');
+        arrayB.forEach(() => {
+            this.step('arrayB');
+        });        
+    });
+
+    
+}
+
 module.exports = {
     powers0f2,
     O1Simple,
     ONSimple,
     ON2Simple,
     O2NSimple,
-    fibonacci
+    fibonacci,
+    OADBSimple,
+    ONXNSimple
 };
