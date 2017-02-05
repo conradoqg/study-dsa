@@ -105,4 +105,24 @@ function findBigO(args, steps, relation) {
     return foundBigOs;
 }
 
-module.exports = findBigO;
+/**
+ * Find the Big O notations from a list of measurements.
+ * 
+ * @param {array} measurements List of measurements. 
+ * @param {object} relation The relation between the arguments.
+ * @returns Object containing a list of a list of the Big O notation name and max steps fund for every argument.
+ */
+function findBigOs(measurements, relation) {
+    let foundBigOs = [];
+
+    measurements.forEach(measurement => {        
+        foundBigOs.push(findBigO(measurement.args, measurement.steps, relation));
+    });
+
+    return foundBigOs;
+}
+
+module.exports = {
+    findBigO,
+    findBigOs
+};
