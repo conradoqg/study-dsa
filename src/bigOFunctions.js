@@ -1,4 +1,19 @@
-/** @namespace BigOFunctions */
+/** 
+ * @namespace BigOFunctions 
+ * @description
+ * Concepts:
+ * - Drop constants
+ *  - O(2N) = O(N)
+ * - Drop non-dominant terms
+ *  - O(N^2 + N) = O(N^2)
+ *  - O(N + log N) = O(N)
+ *  - 0(5*2^N + 1000N^100 ) = O(2^N)
+ * - Multi-part algorithms
+ *  - Add
+ *      - A chunks of work then B chunks of work is O(A+B)
+ *  - Multiply
+ *      - B chunks of work every A element is I(A*B)
+ **/
 
 /**
  * Function that calculates the powers of 2.
@@ -15,7 +30,7 @@ function powers0f2(n) {
     } else if (n == 1) {
         return 1;
     } else {
-        let prev = powers0f2.apply(this, [n / 2]);
+        let prev = powers0f2.apply(this, [n / 2]); // every recursive call does N/2, so log N 
         let curr = prev * 2;
         return curr;
     }
@@ -32,7 +47,7 @@ function powers0f2(n) {
  */
 function O1Simple(n, m) {
     this.step('n', 'm');
-    return n * m;
+    return n * m; // 1 work
 }
 
 /**
@@ -43,7 +58,7 @@ function O1Simple(n, m) {
  * @param {array} array to loop trought.
  */
 function ONSimple(array) {
-    array.forEach(() => this.step('array'));
+    array.forEach(() => this.step('array')); // N work
 }
 
 /**
@@ -54,8 +69,8 @@ function ONSimple(array) {
  * @param {array} array to loop trought. 
  */
 function ON2Simple(array) {
-    array.forEach(() => {
-        array.forEach(() => this.step('array'));
+    array.forEach(() => { // N work
+        array.forEach(() => this.step('array')); // N work
     });
 }
 
@@ -71,7 +86,7 @@ function O2NSimple(n) {
     if (n <= 1) {
         return 1;
     }
-    O2NSimple.apply(this, [n - 1]) + O2NSimple.apply(this, [n - 1]);
+    O2NSimple.apply(this, [n - 1]) + O2NSimple.apply(this, [n - 1]); // branches^N = 2^N work
 }
 
 /**
@@ -88,7 +103,7 @@ function fibonacci(n) {
     } else if (n == 1) {
         return 1;
     }
-    return fibonacci.apply(this, [n - 1]) + fibonacci.apply(this, [n - 2]);
+    return fibonacci.apply(this, [n - 1]) + fibonacci.apply(this, [n - 2]); // branches^N = 2^N work
 }
 
 /**
@@ -101,11 +116,11 @@ function fibonacci(n) {
  */
 function OADBSimple(arrayA, arrayB) {
     arrayA.forEach(() => {
-        this.step('arrayA');
+        this.step('arrayA'); // A work
     });
 
     arrayB.forEach(() => {
-        this.step('arrayB');
+        this.step('arrayB'); // B work
     });
 }
 
@@ -118,27 +133,58 @@ function OADBSimple(arrayA, arrayB) {
  * @param {array} arrayB Second array.
  */
 function ONXNSimple(arrayA, arrayB) {
-    arrayA.forEach(() => {
+    arrayA.forEach(() => { // A work
         this.step('arrayA');
-        arrayB.forEach(() => {
+        arrayB.forEach(() => { // B work
             this.step('arrayB');
-        });        
-    });    
+        });
+    });
 }
 
 /**
  * Simple function that has an array loop inside other array loop. The inner loop does half of the work of the outer loop
- * Big O: O(N * N/2) = O(N^2)
+ * Big O: O(N * N/2) = O((N^2)/2) = O(N^2)
  * 
  * @memberOf BigOFunctions
  * @param {array} array array. 
  */
 function ON2HalfInnerLoop(array) {
-    for (let i= 0; i < array.length; i++) { // N work        
-        for (let j = i + 1; j < array.length; j++) { // N/2 work (on average)            
+    for (let i = 0; i < array.length; i++) { // N work        
+        for (let j = i + 1; j < array.length; j++) { // N/2 work (on average)                        
         }
     }
 }
+
+/**
+ * Simple function that has an array loop, the loop is array size / 2.
+ * Big O: O(N)
+ * 
+ * @memberOf BigOFunctions
+ * @param {array} array array. 
+ */
+function reverse(array) {
+    for (let i = 0; i < array.length / 2; i++) { // It does N even though is array / 2. array / 2 is the N work.
+        let other = array.length - i - 1;
+        let temp = array[i];
+        array[i] = array[other];
+        array[other] = temp;
+    }
+}
+
+/**
+ * 2^log N example.
+ * Big O: O(N)
+ * 
+ * @memberOf BigOFunctions
+ * @param {object} node object which is a balanced binary tree.
+ * @returns sum of all nodes.
+ */
+function sum(node) {
+    if (node == null) {
+        return 0;
+    }
+    return sum(node.left) + node.value + sum(node.right); // 2^log N work = O(N) which 2^depth but each recursive call does log N work.
+} 
 
 module.exports = {
     powers0f2,
