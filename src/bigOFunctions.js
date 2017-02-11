@@ -2,6 +2,7 @@
  * @namespace BigOFunctions 
  * @description
  * Concepts:
+ * 
  * - Drop constants
  *  - O(2N) = O(N)
  * - Drop non-dominant terms
@@ -10,9 +11,23 @@
  *  - 0(5*2^N + 1000N^100 ) = O(2^N)
  * - Multi-part algorithms
  *  - Add
- *      - A chunks of work then B chunks of work is O(A+B)
+ *      - A chunks of work then B chunks of work is O(A + B)
  *  - Multiply
- *      - B chunks of work every A element is I(A*B)
+ *      - B chunks of work every A element is O(A * B)
+ *  - Base of log doesn't matter;
+ *  - The base of an expoent matter: 2^N is diferent from 8^N which is (2^3)^N
+ * 
+ * - Common Patterns
+ *  - An ArrayList after inserting N elements it needs to resize its internal array, but it's so rare that the time is amortized
+ *  - When the number of elements get halved each time, that will likely be a O(log N) runtime. eg. balanced binary search
+ *  - When a recursive function that makes multiple calls, the runtime will often look like O(branches^depth), where branches is the number of times each recursive call branches.
+ *  - O(2^log N) = O(N)
+ * 
+ * - Examples
+ *  - O(N + P), where P < N/2 = O(N) // Drop non-dominant
+ *  - O(2N) = O(N) // Drop constants
+ *  - O(N + log N) = O(N) // Drop non-dominant
+ *  - O(N + M) = O(N + M) // It's not possible to determine the relation between M and N
  **/
 
 /**
