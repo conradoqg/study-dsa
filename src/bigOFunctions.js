@@ -66,7 +66,7 @@ function O1Simple(n, m) {
 }
 
 /**
- * Simple function that executes one statement per array item.
+ * O(N) example that executes one statement per array item.
  * Big O: O(N)
  *   
  * @memberOf BigOFunctions
@@ -85,7 +85,7 @@ function ONSimple(array) {
  */
 function ON2Simple(array) {
     array.forEach(() => { // N work
-        array.forEach(() => this.step('array')); // N work
+        array.forEach(() => this.step('array')); // within N work
     });
 }
 
@@ -122,7 +122,7 @@ function fibonacci(n) {
 }
 
 /**
- * Simple function that has two sequencial array loops.
+ * O(A + B) example that has two sequencial array loops.
  * Big O: O(A + B)
  * 
  * @memberOf BigOFunctions
@@ -140,7 +140,7 @@ function OADBSimple(arrayA, arrayB) {
 }
 
 /**
- * Simple function that has an array loop inside other array loop.
+ * O(A * B) example that has an array loop inside other array loop.
  * Big O: O(A * B)
  * 
  * @memberOf BigOFunctions
@@ -171,7 +171,7 @@ function ON2HalfInnerLoop(array) {
 }
 
 /**
- * Simple function that has an array loop, the loop is array size / 2.
+ * O(N) example that has an array loop, the loop is array size / 2.
  * Big O: O(N)
  * 
  * @memberOf BigOFunctions
@@ -188,7 +188,7 @@ function reverse(array) {
 
 /**
  * 2^log N example.
- * Big O: O(N)
+ * Big O: O(2^log N) = O(N)
  * 
  * @memberOf BigOFunctions
  * @param {object} node object which is a balanced binary tree.
