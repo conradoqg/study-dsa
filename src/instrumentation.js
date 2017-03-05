@@ -21,7 +21,9 @@ class Instrumentation {
      * @example
      * // Warp a function and then call it:
      * const wrappedFunction = instrumentation.wrapForMeasurement(function(number) { console.log(number) });
-     * wrappedFunction(1);     
+     * let measurement = wrappedFunction(1);     
+     * console.log(measurement.result);
+     * console.log(measurement.duration);
      * 
      * @memberOf Instrumentation
      */
@@ -32,7 +34,8 @@ class Instrumentation {
                 args: args,
                 steps: {},                
                 duration: 0,
-            };
+                result: null
+            };            
 
             let instrument = {
                 step: function (...argIDs) {                    
@@ -42,7 +45,7 @@ class Instrumentation {
                     }, this);
                 }
             };            
-            measurement.duration = perfy.exec(() => { fn.apply(instrument, Object.values(args)); }).milliseconds;
+            measurement.duration = perfy.exec(() => { measurement.result = fn.apply(instrument, Object.values(args)); }).milliseconds;
             return measurement;
         };
     }
