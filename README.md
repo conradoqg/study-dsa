@@ -1,13 +1,6 @@
 # study-dsa
 > Studies about data structure and algorithms.
 
-Current tests:
-* Big O Notation
-
-## Installation
-    $ git clone git@github.com:conradoqg/study-dsa.git
-    $ npm install    
-
 ## Contribution and License Agreement
 
 If you contribute code to this project, you are implicitly allowing your code
