@@ -1,6 +1,7 @@
 package com.github.conradoqg.studydsa.hackerrank.challenges.ctci;
 
 import java.util.Collections;
+import java.util.function.Function;
 
 public class IsBinarySearchTree {
 	
@@ -51,14 +52,14 @@ public class IsBinarySearchTree {
 	public static boolean checkBST(Node root) {
 		if (root == null) return false;
 		lastTraversed = null;
-		return traverseInOrder(root);
+		return traverseInOrder(root, IsBinarySearchTree::checkNode);
 	}
 	
-	private static boolean traverseInOrder(Node node) {
+	private static boolean traverseInOrder(Node node, Function<Node, Boolean> checker) {
 		boolean result = true;
-		if (node.left != null) result = traverseInOrder(node.left);
-		if (result && !checkNode(node)) result = false;
-		if (result && node.right != null) result = traverseInOrder(node.right);
+		if (node.left != null) result = traverseInOrder(node.left, checker);
+		if (result && !checker.apply(node)) result = false;
+		if (result && node.right != null) result = traverseInOrder(node.right, checker);
 		return result;
 	}
 	
