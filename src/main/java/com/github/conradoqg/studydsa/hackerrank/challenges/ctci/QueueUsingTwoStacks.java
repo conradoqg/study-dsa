@@ -52,11 +52,3 @@ public class QueueUsingTwoStacks {
 	}
 
 }
-
-/*
- * 
- * 2 1
- * 
- * 1 2
- * 
- */
