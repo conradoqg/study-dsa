@@ -19,10 +19,6 @@ public class IceCreamParlor {
 		}
 	}
 
-	public static interface HasComparableValue<T, A> extends Comparable<A> {
-		T getValue();
-	}
-
 	public static class Item implements Comparable<Item> {
 		int id;
 		int value;

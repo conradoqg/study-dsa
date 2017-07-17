@@ -71,4 +71,31 @@ public class IceCreamParlorTest {
 		assertTrue(foundCombination.left.id == 29);
 		assertTrue(foundCombination.right.id == 46);
 	}
+	
+	@Test
+	public void testFindSumEquals_Case7() {
+		int[] array = { 5, 75, 25 };
+		int sum = 100;
+		IceCreamParlor.ItemCombination foundCombination = IceCreamParlor.findSumEqualsCustomBinary(array, sum);
+		assertTrue(foundCombination.left.id == 2);
+		assertTrue(foundCombination.right.id == 3);
+	}
+	
+	@Test
+	public void testFindSumEquals_Case8() {
+		int[] array = { 150,24,79,50,88,345,3 };
+		int sum = 200;
+		IceCreamParlor.ItemCombination foundCombination = IceCreamParlor.findSumEqualsCustomBinary(array, sum);
+		assertTrue(foundCombination.left.id == 1);
+		assertTrue(foundCombination.right.id == 4);
+	}
+	
+	@Test
+	public void testFindSumEquals_Case9() {
+		int[] array = { 2, 1, 9, 4, 4, 56, 90, 3 };
+		int sum = 8;
+		IceCreamParlor.ItemCombination foundCombination = IceCreamParlor.findSumEqualsJavaBinary(array, sum);
+		assertTrue(foundCombination.left.id == 4);
+		assertTrue(foundCombination.right.id == 5);
+	}
 }
