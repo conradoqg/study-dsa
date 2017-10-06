@@ -510,6 +510,38 @@ Usefulness:
 - **Dijkstra**: Shortest path algorithm
 - **A\***: Shortest path algorithm
 
+## Bit Manipulation
+
+Bit Operations:
+
+|Name|Left|Operation|Right|Result|
+|-|-|-|-|-|
+|AND|0101|&|0110|0100|
+|OR|0101|\||0110|0111|
+|XOR|0101|^|0110|0011|
+|NOT||~|0110|1001|
+|Left Arithmetic Shift|0101|<<|2|0100|
+|Right Arithmetic Shift|0101|>>|2|0001|
+|Right Logic Shift|0101|>>>|2|0001|
+
+Mathematical Operations:
+
+- **Left shifting**: (x << n) = x*2<sup>n</sup>
+- **Right shifting**: (x >> n) = x/2<sup>n</sup>
+
+Masks:
+
+- **Set Bit**: num | (1 << i)
+- **Get Bit**: ((num & (1 << i)) != 0)
+- **Flip Bit**: num ^ (1 << i)
+- **Clear Bit**: num & ~(1 << i)
+- **Modify Bit**: (num & ~(1 << i)) | (-state & (1 << i))
+
+Tricks
+
+- **Check if even**: (num & 1) == 0
+- **Check if power of two**: (num & num-1) == 0
+
 ## Tricks
 
 - The sum of all numbers between 1-100 = (100+1) * ((100) / 2).
@@ -517,3 +549,4 @@ Usefulness:
     - i Left = 2i + 1
     - i Right = 2i + 2
     - i Parent = (i - 1)/2
+- Check if it's prime: Instead of looping through all ints from 2 to max-1, loop from 2 to sqrt(max).
