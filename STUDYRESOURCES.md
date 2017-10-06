@@ -121,7 +121,7 @@ Usefulness:
 
 Common modifiers:
 
-- **CopyOnWrite**: Instead of writing directly to the data storage, copy it first, then write, so readers do not suffer from concurrent modification. Specially usefull when there are lots of read and a few writes.
+- **CopyOnWrite**: Instead of writing directly to the data storage, copy it first, then write, so readers do not suffer from concurrent modification. Specially useful when there are lots of read and a few writes.
 - **WeekReference**: Weak references allow you to leverage the garbage collector's ability to determine reachability for you, so you don't have to do it yourself.
 
 ### Special Purpose
@@ -141,7 +141,7 @@ Implementations:
     - Auto-balanced
         - AVL Tree: Binary search tree with rotations on insertion and deletion to balance the tree
         - RBT: Close to AVL Tree, but uses a coloring technic to balance the tree
-        - B-Tree: Store nodes in packs of X keeping the tree relatively balanced, usefull for storing blocks of data (nodes)
+        - B-Tree: Store nodes in packs of X keeping the tree relatively balanced, useful for storing blocks of data (nodes)
         - KD Tree: Balances the three every K dimentions
     - Specific
         - Splay Tree: Organizes a tree by moving the last acessed item to the top through rotations
@@ -354,8 +354,9 @@ Usefulness:
 ### Searching (Trees and Graphs)
 
 - **Binary Search**
-    - In Order Traversal in a Binary Tree
-- **Depth-fisrt Search** (Stack)
+    1. If the value is larger than the node value go to the right
+    2. If the value is smaller than the node value go to the left
+- **Depth-first Search** (Stack)
     - Pre Order
         1. Visit node
         2. Traverse left
@@ -490,6 +491,24 @@ Usefulness:
         return total_path
     ```
 
+Usefulness:
+
+- **Binary search**: Fast search O(log(n))
+- **Depth-first Search**:
+    1. Finding Connected Components of the graph.
+    2. Linear ordering of the graph using Topological Sorting ( useful in solving dependency problems ).
+    3. Finding Strongly Connected Components.
+    4. Solving maze problems ( finding exit of the maze ).
+    5. Finding Cycle in graphs and also finding the largest Cycle.
+    - Pre Order: Pre Order traversal is used to create a copy of the tree. Pre Order traversal is also used to get the prefix expression of an expression tree. 
+    - In Order: In case of binary search trees (BST), In Order traversal gives nodes in non-decreasing order. To get nodes of BST in non-increasing order, a variation of In Order traversal where In Order traversal is reversed, can be used.
+    - Post Order: Post Order traversal is used to delete the tree. Post Order traversal is also useful to get the postfix expression of an expression tree.
+- **Breath-first Search**:
+    1. Finding Shortest path from Source to other vertices in an unweighted graph.
+    2. Finding quickest and efficient solution of a puzzle ( eg. Rubik’s cube) by applying BFS on the state space.
+    3. Creating Bipartite Graphs.
+- **Dijkstra**: Shortest path algorithm
+- **A\***: Shortest path algorithm
 
 ## Tricks
 
